@@ -3,7 +3,7 @@
 # author:"Haxhimitsu"
 # date  :"2021/01/06"
 # cite  :
-# 
+# sample:python3 imgtrim_gui_ver.2.0.py  --input_dir ../assets/original_img/cbn_test_01/ --output_dir ../assets/sample_output/  --trim_width 32 --trim_height 64
 #---------------------------------------------------------------------
 
 import os
@@ -24,12 +24,7 @@ parser.add_argument("--img_scale", type=float,default=1.0, help="set image size 
 parser.add_argument("--trim_width", type =int ,default=32, required=True,help="set trim width")
 parser.add_argument("--trim_height", type =int ,default=32, required=True,help="set trim height")
 parser.add_argument("--output_dir",  help="output path")
-#parser.add_argument("--comp_fname", required=True ,help="set compare img name")
-#parser.add_argument("--rot_img_deg",choices=["90", "180", "270"])
-#parser.add_argument("--b_dir", type=str, help="path to folder containing B images for combine operation")
 a = parser.parse_args()
-
-
 
 class mouseParam:
     def __init__(self, input_img_name):
@@ -71,6 +66,13 @@ class mouseParam:
         return (self.mouseEvent["x"], self.mouseEvent["y"])
     
 
+"""
+# function      :   make  item list sort by name 
+# input arg     :   directy path
+# output        :   list of each contents path (list)
+# func detail   :   make list of path several contents in directry sorted by namae.
+                    if None contents input directry path EOF error and 
+"""
 def find(d):
     result = []
     for filename in os.listdir(d):
