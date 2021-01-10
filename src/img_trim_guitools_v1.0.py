@@ -104,7 +104,7 @@ def main():
                 #mouse_flag=0
                 
                 if mouseData.getEvent() == cv2.EVENT_MOUSEMOVE:
-                    print("gethoge")
+                    
                     x = mouseData.getX()*2
                     y = mouseData.getY()*2
                     mouse_flag = 0
@@ -115,11 +115,12 @@ def main():
                 
                 if (mouseData.getEvent() == cv2.EVENT_RBUTTONDOWN) and (mouse_flag == 0):
                     #flag = 1
+                    print("Rhoge")
                     mouse_flag = 1
                     
-                    if (y-200 >= 0) and (x-320 >= 0) and (y+200 >= 0) and (x+320 >= 0):
+                    if (y-20 >= 0) and (x-20 >= 0) and (y+20 >= 0) and (x+20 >= 0):
                         count = count + 1;
-                        trim = tmp[y-200:y+200, x-320:x+320]#トリミング
+                        trim = tmp[y-20:y+20, x-32:x+32]#トリミング
                         print(a.output_dir+ '%d'%count +'.jpg')
                         cv2.imwrite(a.output_dir+ '%d'%count +'.jpg', trim)
                 
