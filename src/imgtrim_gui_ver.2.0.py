@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 #----------------------------------------------------------------------
 # author:"Haxhimitsu"
 # date  :"2021/01/06"
@@ -23,7 +24,7 @@ parser.add_argument("--input_dir",  required=True, help="path to folder containi
 parser.add_argument("--img_scale", type=float,default=1.0, help="set image size e.g.'0.5,0.8...'")
 parser.add_argument("--trim_width", type =int ,default=32, required=True,help="set trim width")
 parser.add_argument("--trim_height", type =int ,default=32, required=True,help="set trim height")
-parser.add_argument("--output_dir",  help="output path")
+parser.add_argument("--output_dir",  help="output path",required=True)
 a = parser.parse_args()
 
 class mouseParam:
@@ -77,7 +78,7 @@ def find(d):
     result = []
     for filename in os.listdir(d):
         _, ext = os.path.splitext(filename.lower())
-        if ext == ".jpg" or ext == ".png":
+        if ext == ".jpg" or ext == ".png" or ext == ".tif":
             result.append(os.path.join(d, filename))
         else:
             print("can't find  such file or directry")
@@ -86,7 +87,7 @@ def find(d):
     return result
 
 """
-# function      : careate  directry 
+# function      : careate  directry
 # input arg     : directry path
 # output        : none
 # func detail   : if not already exsits arg directry path,this function create directry.
