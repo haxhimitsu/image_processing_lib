@@ -5,6 +5,7 @@
 # date  :"2021/01/06"
 # cite  :
 # sample:python3 imgtrim_gui_ver.2.0.py  --input_dir ../assets/original_img/cbn_test_01/ --output_dir ../assets/sample_output/  --trim_width 32 --trim_height 64
+#python3 imgtrim_gui_ver.2.0.py  --input_dir ~/Desktop/cbn_3dref_dataset/test/ --output_dir ~/Desktop/temppp/
 #---------------------------------------------------------------------
 
 import os
@@ -22,8 +23,8 @@ import copy
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir",  required=True, help="path to folder containing images")
 parser.add_argument("--img_scale", type=float,default=1.0, help="set image size e.g.'0.5,0.8...'")
-parser.add_argument("--trim_width", type =int ,default=32, required=True,help="set trim width")
-parser.add_argument("--trim_height", type =int ,default=32, required=True,help="set trim height")
+parser.add_argument("--trim_width", type =int ,default=32,help="set trim width")
+parser.add_argument("--trim_height", type =int ,default=32,help="set trim height")
 parser.add_argument("--output_dir",  help="output path",required=True)
 a = parser.parse_args()
 
