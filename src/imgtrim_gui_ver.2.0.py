@@ -15,7 +15,7 @@ import tkinter.messagebox as tkmb #メッセージボックスを使うために
 import cv2 #OpenCVを使うために必要
 #import cv2
 import sys
-import argparse##引数拡張mジュール
+import argparse#引数拡張mジュール
 import time
 import copy
 
