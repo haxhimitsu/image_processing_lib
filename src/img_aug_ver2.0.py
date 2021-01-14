@@ -33,7 +33,7 @@ parser.add_argument("--output_dir", required=True, help="output path")
 parser.add_argument("--rot_img_deg", choices=["90", "180", "270"])
 parser.add_argument("--resize_width",type=int )
 parser.add_argument("--resize_height",type=int )
-parser.add_argument("--trim", action='store_true')
+parser.add_argument("--trim")
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
 parser.add_argument("--color_mask",action='store_true')
@@ -51,7 +51,7 @@ def main():
         name, _ = os.path.splitext(os.path.basename(src_path))
         #print(name)
         #dst_path = os.path.join(a.output_dir, name + ".png")
-        orgimg = cv2.imread(a.input_dir+ '/'+name+'.tif')
+        orgimg = cv2.imread(a.input_dir+ '/'+name+'.jpg')
 
         if orgimg is None:
             print("Can't_read_image")
