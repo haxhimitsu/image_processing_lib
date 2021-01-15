@@ -31,9 +31,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir", required=True, help="path to folder containing images")
 parser.add_argument("--output_dir", required=True, help="output path")
 parser.add_argument("--rot_img_deg", choices=["90", "180", "270"])
-parser.add_argument("--resize_width",type=int )
-parser.add_argument("--resize_height",type=int )
-parser.add_argument("--trim")
+parser.add_argument('--resize_pixel',type=int, nargs='+', help='Set resize size height width')
+# Use like: python arg.py -resize_pixel 320 640
+parser.add_argument("--resize_scale",type=float,help="set resize scale")
+parser.add_argument('--split_size',type=int, nargs='+', help='Set split size height width')
+parser.add_argument("--trim", action='store_true')
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
 parser.add_argument("--color_mask",action='store_true')
@@ -43,30 +45,56 @@ def main():
 
     output_dir=a.output_dir
     myutil.create_directory(output_dir)
-    
-    img_list=myutil.get_img_list(a.input_dir)
-    print(img_list[0])
 
-    for src_path in img_list:
-        name, _ = os.path.splitext(os.path.basename(src_path))
-        #print(name)
-        #dst_path = os.path.join(a.output_dir, name + ".png")
-        orgimg = cv2.imread(a.input_dir+ '/'+name+'.jpg')
+    img_list,ext=myutil.get_img_list(a.input_dir)
+    print("sample_read_image_is->\n",img_list[0])
+    src_height,src_width=myutil.get_img_specification(img_list[0])
+    print("sample_img_width->",src_width)
+    print("sample_img_height->",src_height)
 
-        if orgimg is None:
-            print("Can't_read_image")
-            sys.exit()
-
-        if a.resize_height is not None:
-            size=(a.resize_height,a.resize_width)
+    if a.resize_pixel is not None:
+        resize_val=a.resize_pixel
+        #print("resize_list",resize_val)
+        #print("resize_width",resize_val[1])
+        #print("resize_height",resize_val[0])
+        size=(resize_val[1],resize_val[0])
+        #size=(width,height)
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
+            myutil.image_check(orgimg)
             image2=cv2.resize(orgimg,size)
-            save_path=a.output_dir+ '/'+ name +'_'+str(a.resize_height)+"*"+str(a.resize_width)+'.png'
+            save_path=a.output_dir+ '/'+ name +'_'+str(resize_val[0])+"*"+str(resize_val[1])+'.jpg'
             cv2.imwrite(save_path,image2)
 
-        if a.trim is not None:
-            height,width,c=orgimg.shape
-            trim = orgimg[(int(height*0.4)):(height), (0):(width)]
-            print("save at",output_dir+ name+'_'+"trimed" +'.jpg')
+    if a.resize_scale is not None:
+        scale=a.resize_scale
+        width=int(src_width*scale)
+        height=int(src_height*scale)
+        print("resized_img_height->",height)
+        print("resized_img_width->",width)
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
+
+            myutil.image_check(orgimg)
+
+            image2=cv2.resize(orgimg,(width,height))
+            save_path=a.output_dir+ '/'+ name +'_'+str(height)+"*"+str(width)+'.jpg'
+            cv2.imwrite(save_path,image2)
+
+    if a.trim is True:
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
+
+            myutil.image_check(orgimg)
+
+            trim = orgimg[(int(src_height*0.4)):(src_height), (0):(src_width)]
+            #print("save at",output_dir+ name+'_'+"trimed" +'.jpg')
             cv2.imwrite(output_dir+ name+'_'+"trimed" +'.jpg', trim)
 
 

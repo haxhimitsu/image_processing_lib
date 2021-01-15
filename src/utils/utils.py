@@ -8,12 +8,23 @@
 # sample:python3 imgtrim_gui_ver.2.0.py  --input_dir ../assets/original_img/cbn_test_01/ --output_dir ../assets/sample_output/  --trim_width 32 --trim_height 64
 #---------------------------------------------------------------
 import numpy as np
-#import pandas as pd
-#from sklearn.model_selection import train_test_split
-#import matplotlib.pyplot as plt
-import os
 
+import os
+import cv2 #OpenCVを使うために必要
 class my_img_proces:
+
+    def image_check(self,image):
+        if image is None:
+            print("Can't_read_image")
+            sys.exit()
+
+    def get_img_specification(self,image_path):
+        image=cv2.imread(image_path)
+        self.image_check(image)
+        self.img_width=image.shape[1]
+        self.img_height=image.shape[0]
+
+        return self.img_height, self.img_width
 
     """
     # function      : careate  directry
@@ -36,13 +47,11 @@ class my_img_proces:
                 result.append(os.path.join(img_directory, filename))
         result.sort()
 
-        return result
-
-
+        return result,ext
 
     def sayStr(self, str):
         print (str)
- 
+
 if __name__ == '__main__':
     test = my_img_proces()
     test.sayStr("Hello")   # Hello
