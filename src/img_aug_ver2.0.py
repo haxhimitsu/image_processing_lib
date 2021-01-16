@@ -30,12 +30,13 @@ myutil.sayStr("Hello")
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir", required=True, help="path to folder containing images")
 parser.add_argument("--output_dir", required=True, help="output path")
-parser.add_argument("--rot_img_deg", choices=["90", "180", "270"])
 parser.add_argument('--resize_pixel',type=int, nargs='+', help='Set resize size height width')
 # Use like: python arg.py -resize_pixel 320 640
 parser.add_argument("--resize_scale",type=float,help="set resize scale")
 parser.add_argument('--split_size',type=int, nargs='+', help='Set split size height width')
 parser.add_argument("--trim", action='store_true')
+
+parser.add_argument("--rot_img_deg", choices=["90", "180", "270"])
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
 parser.add_argument("--color_mask",action='store_true')
@@ -53,6 +54,7 @@ def main():
     print("sample_img_height->",src_height)
 
     if a.resize_pixel is not None:
+        print("process_resize_pixel\n")
         resize_val=a.resize_pixel
         #print("resize_list",resize_val)
         #print("resize_width",resize_val[1])
@@ -69,6 +71,7 @@ def main():
             cv2.imwrite(save_path,image2)
 
     if a.resize_scale is not None:
+        print("process_resize_scale\n")
         scale=a.resize_scale
         width=int(src_width*scale)
         height=int(src_height*scale)
@@ -86,6 +89,7 @@ def main():
             cv2.imwrite(save_path,image2)
 
     if a.trim is True:
+        print("process_trim\n")
         for src_path in img_list:
             name, _ = os.path.splitext(os.path.basename(src_path))
             #print(name)
@@ -96,8 +100,27 @@ def main():
             trim = orgimg[(int(src_height*0.4)):(src_height), (0):(src_width)]
             #print("save at",output_dir+ name+'_'+"trimed" +'.jpg')
             cv2.imwrite(output_dir+ name+'_'+"trimed" +'.jpg', trim)
-
-
+    
+    if a.split_size is not None:
+        print("process_split_size\n")
+        target_trim=a.split_size
+        resize_width, resize_height, rows, cols = myutil.get_split_specification(target_trim[1],target_trim[0])
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
+            orgimg = cv2.resize(orgimg, (resize_width, resize_height))
+            chunks = []
+            myutil.image_check(orgimg)
+            for row_img in np.array_split(orgimg, cols, axis=0):
+                for chunk in np.array_split(row_img, rows, axis=1):
+                    chunks.append(chunk)
+        #print(len(chunks))
+        # 保存する。
+            for i, chunk in enumerate(chunks):
+                save_path=a.output_dir+ '/'+ name +'_'+"split"+f'_{i:02d}.jpg'
+                #save_path = output_dir +str(input_image_name_list[k])+f'_{i:02d}.png'
+                cv2.imwrite(save_path, chunk)
 
 
 

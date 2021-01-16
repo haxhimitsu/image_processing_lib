@@ -48,6 +48,17 @@ class my_img_proces:
         result.sort()
 
         return result,ext
+    
+    def get_split_specification(self,target_width,target_height):
+        rows=int(self.img_width/target_width)
+        cols=int(self.img_height/target_height)
+        resize_width=target_width*rows
+        resize_height=target_height*cols
+        print("split_resize_width->",resize_width,"split_esize_height->",resize_height)
+        print("rows->",rows,"cols->",cols)
+        return resize_width,resize_height,rows,cols
+
+
 
     def sayStr(self, str):
         print (str)
