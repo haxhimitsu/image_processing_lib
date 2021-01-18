@@ -54,7 +54,7 @@ class my_img_proces:
         cols=int(self.img_height/target_height)
         resize_width=target_width*rows
         resize_height=target_height*cols
-        print("split_resize_width->",resize_width,"split_esize_height->",resize_height)
+        print("split_resize_width->",resize_width,"split_resize_height->",resize_height)
         print("rows->",rows,"cols->",cols)
         return resize_width,resize_height,rows,cols
 

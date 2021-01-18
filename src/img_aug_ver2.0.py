@@ -20,7 +20,6 @@ import time
 import multiprocessing
 
 #my module
-import sys
 from utils.utils import my_img_proces
 
 myutil=my_img_proces()
@@ -50,8 +49,8 @@ def main():
     img_list,ext=myutil.get_img_list(a.input_dir)
     print("sample_read_image_is->\n",img_list[0])
     src_height,src_width=myutil.get_img_specification(img_list[0])
-    print("sample_img_width->",src_width)
     print("sample_img_height->",src_height)
+    print("sample_img_width->",src_width)
 
     if a.resize_pixel is not None:
         print("process_resize_pixel\n")
@@ -60,7 +59,7 @@ def main():
         #print("resize_width",resize_val[1])
         #print("resize_height",resize_val[0])
         size=(resize_val[1],resize_val[0])
-        #size=(width,height)
+        #caution!! size=(width,height)
         for src_path in img_list:
             name, _ = os.path.splitext(os.path.basename(src_path))
             #print(name)
@@ -68,6 +67,7 @@ def main():
             myutil.image_check(orgimg)
             image2=cv2.resize(orgimg,size)
             save_path=a.output_dir+ '/'+ name +'_'+str(resize_val[0])+"*"+str(resize_val[1])+'.jpg'
+            #save_path=a.output_dir+ '/'+ name +'_'+resize_height+"*"+resize_width+'.jpg'
             cv2.imwrite(save_path,image2)
 
     if a.resize_scale is not None:
@@ -81,9 +81,7 @@ def main():
             name, _ = os.path.splitext(os.path.basename(src_path))
             #print(name)
             orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
-
             myutil.image_check(orgimg)
-
             image2=cv2.resize(orgimg,(width,height))
             save_path=a.output_dir+ '/'+ name +'_'+str(height)+"*"+str(width)+'.jpg'
             cv2.imwrite(save_path,image2)
@@ -94,13 +92,11 @@ def main():
             name, _ = os.path.splitext(os.path.basename(src_path))
             #print(name)
             orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
-
             myutil.image_check(orgimg)
-
             trim = orgimg[(int(src_height*0.4)):(src_height), (0):(src_width)]
             #print("save at",output_dir+ name+'_'+"trimed" +'.jpg')
             cv2.imwrite(output_dir+ name+'_'+"trimed" +'.jpg', trim)
-    
+
     if a.split_size is not None:
         print("process_split_size\n")
         target_trim=a.split_size
