@@ -34,8 +34,8 @@ parser.add_argument('--resize_pixel',type=int, nargs='+', help='Set resize size 
 parser.add_argument("--resize_scale",type=float,help="set resize scale")
 parser.add_argument('--split_size',type=int, nargs='+', help='Set split size height width')
 parser.add_argument("--trim", action='store_true')
+parser.add_argument("--data_reduction",type=float,help="set reduction scale input value must be < 1.0")
 
-parser.add_argument("--rot_img_deg", choices=["90", "180", "270"])
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
 parser.add_argument("--color_mask",action='store_true')
@@ -117,6 +117,19 @@ def main():
                 save_path=a.output_dir+ '/'+ name +'_'+"split"+f'_{i:02d}.jpg'
                 #save_path = output_dir +str(input_image_name_list[k])+f'_{i:02d}.png'
                 cv2.imwrite(save_path, chunk)
+
+    if a.data_reduction is not None and a.data_reduction < 1.0:
+        print("process_data_reduction\n")
+        print("original_datasize->\n",len(img_list))
+        exception_range=int(len(img_list)*a.data_reduction)
+        print("reduction_datasize->\n",exception_range)
+        reduction_img_list=img_list[:exception_range]
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
+            myutil.image_check(orgimg)
+            save_path=a.output_dir+ '/'+ name +'.jpg'
+            cv2.imwrite(save_path,orgimg)
 
 
 
