@@ -124,7 +124,7 @@ def main():
         exception_range=int(len(img_list)*a.data_reduction)
         print("reduction_datasize->\n",exception_range)
         reduction_img_list=img_list[:exception_range]
-        for src_path in img_list:
+        for src_path in reduction_img_list:
             name, _ = os.path.splitext(os.path.basename(src_path))
             orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
             myutil.image_check(orgimg)
