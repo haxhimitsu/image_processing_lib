@@ -35,6 +35,7 @@ parser.add_argument("--resize_scale",type=float,help="set resize scale")
 parser.add_argument('--split_size',type=int, nargs='+', help='Set split size height width')
 parser.add_argument("--trim", action='store_true')
 parser.add_argument("--data_reduction",type=float,help="set reduction scale input value must be < 1.0")
+parser.add_argument("--data_concat", action='store_true')
 
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
@@ -130,6 +131,18 @@ def main():
             myutil.image_check(orgimg)
             save_path=a.output_dir+ '/'+ name +'.jpg'
             cv2.imwrite(save_path,orgimg)
+
+    if a.data_concat is True:
+        print("process_data_concat\n")
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
+            myutil.image_check(orgimg)
+            trim1 = orgimg[(0):(int((src_height*0.5))), (0):(src_width)]
+            trim2 = orgimg[(int((src_height*0.5))):((src_height)), (0):(src_width)]
+            img_hconcat = cv2.hconcat([trim1,trim2])
+            cv2.imwrite(output_dir+ name+'_'+"hconcat" +'.jpg', img_hconcat)
 
 
 
