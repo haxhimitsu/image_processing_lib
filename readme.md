@@ -3,12 +3,15 @@
 いろいろな画像処理を行うディレクトリ
 
 # Usage
-* ↓
-```bash
-python3 prog/src/hist_matching.py --input_dir --comp_dir 
+
+* 画像の高さと幅のピクセル値を指定したリサイズ↓
+```python:src/img_aug_ver2.0.py
+python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --resize_pixel  128 256
 ```
-argments
-"--inpt_dir"と"comp_dir"で指定した画像ファイルのヒストグラムの類似度を計算する．
+input_dir で指定したディレクトリ内の画像を読み込み，
+height 128 ，width 256にリサイズ．
+output_dir で指定したディレクトリ画像を保存する．
+
 
 * 画像同士の差分を計算するプログラム
 IPS(image pixel simiraly)↓
