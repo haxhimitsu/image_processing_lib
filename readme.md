@@ -2,10 +2,20 @@
 
 いろいろな画像処理を行うディレクトリ
 
-# Usage
 
+# Gneral specification
+* 読み込み可能な画像の拡張子はopencvに準拠．
+* 保存時の拡張子は，`.jpg`
+* 保存先のディレクトリが存在しない場合，自動的にディレクトリが作成される．
+* すでに存在するディレクトリを指定した場合は，上書きされる．
+* argments のhelpを見れば機能と指定を見れる↓
+```
+python3 src/img_aug_ver2.0.py --h
+```
+
+# Usage
 * 画像の高さと幅のピクセル値を指定したリサイズ↓
-```python:src/img_aug_ver2.0.py
+```python:src
 python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --resize_pixel  128 256
 ```
 input_dir で指定したディレクトリ内の画像を読み込み，
@@ -13,14 +23,13 @@ height 128 ，width 256にリサイズ．
 output_dir で指定したディレクトリ画像を保存する．
 
 
-* 画像同士の差分を計算するプログラム
-IPS(image pixel simiraly)↓
+* 元画像に対する比率を用いたリサイズ↓
 ```bash
-python3 prog/src/img_diff_02.py  --input_dir cbn_test_04/images/  --target_fname  outputs --comp_fname targets
+python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --resize_scale  0.5
 ```
-argments
+`--resize_scale`は，1.0以下のfloatで指定すること．
+リサイズ後の値が浮動小数点の場合，intでcastしているため，切り上げ．
 
-target_fname,comp_fname  は比較したい画像名の文字列をしていする．
 
 
 * 各光源の回転角度に対する割合を計算し，棒グラフや円形ヒストグラムを作成する↓
