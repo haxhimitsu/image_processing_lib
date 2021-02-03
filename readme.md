@@ -1,10 +1,10 @@
-# image processing libraly
+# image processing library
 
 いろいろな画像処理を行うディレクトリ
 
 
 # Gneral specification
-* 読み込み可能な画像の拡張子はopencvに準拠．
+* 読み込み可能な画像 の拡張子はopencvに準拠．
 * 保存時の拡張子は，`.jpg`
 * 保存先のディレクトリが存在しない場合，自動的にディレクトリが作成される．
 * すでに存在するディレクトリを指定した場合は，上書きされる．
