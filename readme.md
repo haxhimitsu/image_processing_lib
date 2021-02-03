@@ -74,8 +74,13 @@ input_dir に存在する画像を読み込み，画像内の任意の場所で�
  
 * Ubuntu 18.04 LTS later
 * python 3.6.9
-* matplotlib 3.2.2
 * opencv 4.4.0
+* matplotlib 3.2.2
+``pip3 install matplotlib``
+* argparse 
+``pip3 install argparse``
+
+
 
 
 # Author
