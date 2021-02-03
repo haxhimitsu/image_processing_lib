@@ -37,9 +37,11 @@ parser.add_argument("--trim", action='store_true')
 parser.add_argument("--data_reduction",type=float,help="set reduction scale input value must be < 1.0")
 parser.add_argument("--data_concat", action='store_true')
 
+"""
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
 parser.add_argument("--color_mask",action='store_true')
+"""
 a = parser.parse_args()
 
 def main():
