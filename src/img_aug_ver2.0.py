@@ -33,10 +33,9 @@ parser.add_argument('--resize_pixel',type=int, nargs='+', help='Set resize size 
 # Use like: python arg.py -resize_pixel 320 640
 parser.add_argument("--resize_scale",type=float,help="set resize scale")
 parser.add_argument('--split_size',type=int, nargs='+', help='Set split size height width')
-parser.add_argument("--trim", action='store_true')
 parser.add_argument("--data_reduction",type=float,help="set reduction scale input value must be < 1.0")
 parser.add_argument("--data_concat", action='store_true')
-
+parser.add_argument("--trim", action='store_true')
 """
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')

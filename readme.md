@@ -14,8 +14,9 @@ python3 src/img_aug_ver2.0.py --h
 ```
 
 # Usage
+##  ``img_aug_ver2.0.py``
 * 画像の高さと幅のピクセル値を指定したリサイズ↓
-```python:src
+```bash
 python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --resize_pixel  128 256
 ```
 input_dir で指定したディレクトリ内の画像を読み込み，
@@ -32,26 +33,46 @@ python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "
 
 
 
-* 各光源の回転角度に対する割合を計算し，棒グラフや円形ヒストグラムを作成する↓
+* 元画像から，指定された画像サイズで切り出し↓
 ```bash
-python3 rot_hist03.py --input_dir sample/ --source_fname Bloc --caloc_type pixel_size_to_ratio
+python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --split_size　128 64
 ```
---caloc_typeは以下の２つの指定方法がある．
+height->128,width->64で切り出しを行う．
+指定した画像サイズで，切り代やあまりなく，元画像をすべて切り出しできるように，
+元画像は予めリサイズを行っている．
 
---pixel_size_to_ratio ->元画像サイズに対する各光源色の割合．
-![Test Image 1](graph/pixel_size_to_ratio.png)
+* input_dir  内の画像の枚数を削減する↓
+```bash
+python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --data_reduction 0.5
+```
+input_dir内の画像枚数が100枚の場合，
+100*0.5=50枚の画像をoutput_dirで指定したディレクトリにコピーする．
+argment type は1.0 以下の`float`
 
-color_size_to_ratio ->４色の光源の合計サイズに対する各光源色の割合．
-を計算する．
+* 画像の横方向結合↓
+```bash
+python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --data_concat
+```
+画像をheight/2で上下に分割し，左右に結合する．
 
-円形ヒストグラム↓
-![Test Image 1](graph/rot_hist_original.png)
+![エビフライトライアングル](assets/readme_img/hconcat.png)
 
+その他の機能は未実装．
+##  ``img_aug_ver2.0.py``
 
-その他のプログラムは，古いばーじょん．
+* マウス操作で，画像内から指定サイズを切り出す↓
+```bash
+python3 imgtrim_gui_ver.2.0.py  --input_dir "{your input directory}"--output_dir "{your output directory}"  --trim_width 32 --trim_height 64
+```
+input_dir に存在する画像を読み込み，画像内の任意の場所でマウスのMBUTTONを押すと，trim_width,trim_heightで切り出し，output_dir に保存．
+次の画像へ遷移するには，LBUTTON．終了は，RBUTTON
+ログ機能等は実装していないので．
+毎回，最初の画像から，読み込みが行われる．
+画像処理で，データセット作れないときの最終手段.....
+もしくは，とりあえず，データセット作りたいのときの，プリデータセット作成とかで使う．
 # Requirement
  
- 
+* Ubuntu 18.04 LTS later
 * python 3.6.9
 * matplotlib 3.2.2
 * opencv 4.4.0
