@@ -36,6 +36,8 @@ parser.add_argument('--split_size',type=int, nargs='+', help='Set split size hei
 parser.add_argument("--data_reduction",type=float,help="set reduction scale input value must be < 1.0")
 parser.add_argument("--data_concat", action='store_true')
 parser.add_argument("--trim", action='store_true')
+parser.add_argument("--mono", action='store_true')
+
 """
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
@@ -144,6 +146,17 @@ def main():
             trim2 = orgimg[(int((src_height*0.5))):((src_height)), (0):(src_width)]
             img_hconcat = cv2.hconcat([trim1,trim2])
             cv2.imwrite(output_dir+ name+'_'+"hconcat" +'.jpg', img_hconcat)
+
+    if a.mono is True:
+        print("process_mono\n")
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext)
+            orgimg = cv2.cvtColor(orgimg, cv2.COLOR_BGR2GRAY) 
+            myutil.image_check(orgimg)
+            ret2, img_otsu = cv2.threshold(orgimg, 0, 255, cv2.THRESH_OTSU)
+            cv2.imwrite(output_dir+ name+'_'+"mono" +'.jpg', img_otsu)
 
 
 

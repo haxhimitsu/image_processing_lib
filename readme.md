@@ -57,6 +57,14 @@ python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "
 
 ![エビフライトライアングル](assets/readme_img/hconcat.png)
 
+
+* 画像の二値化↓
+```bash
+python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --mono
+```
+cv2.THRESH_OTSUを利用．
+各画像ごとに，threshooldを求めている．
+
 その他の機能は未実装．
 ##  ``img_aug_ver2.0.py``
 
