@@ -65,6 +65,13 @@ python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "
 cv2.THRESH_OTSUを利用．
 各画像ごとに，threshooldを求めている．
 
+* FFT変換
+```bash
+python3 src/img_aug_ver2.0.py --inpt_dir "{your input directory}" --output_dir "{your output directry}" --fft
+```
+逆変換は，上手く動いてない．．
+
+
 その他の機能は未実装．
 ##  ``img_aug_ver2.0.py``
 
