@@ -37,7 +37,8 @@ parser.add_argument("--data_reduction",type=float,help="set reduction scale inpu
 parser.add_argument("--data_concat", action='store_true')
 parser.add_argument("--trim", action='store_true')
 parser.add_argument("--mono", action='store_true')
-
+parser.add_argument("--fft", action='store_true')
+parser.add_argument("--invfft", action='store_true')
 """
 parser.add_argument("--eq_hist_rgb", action='store_true')
 parser.add_argument("--adjust_contrast",action='store_true')
@@ -157,6 +158,61 @@ def main():
             myutil.image_check(orgimg)
             ret2, img_otsu = cv2.threshold(orgimg, 0, 255, cv2.THRESH_OTSU)
             cv2.imwrite(output_dir+ name+'_'+"mono" +'.jpg', img_otsu)
+
+    if a.fft is True:
+        print("process_FFT\n")
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext,0)
+            #orgimg = cv2.cvtColor(orgimg, cv2.COLOR_BGR2GRAY)
+            myutil.image_check(orgimg)
+            f = np.fft.fft2(orgimg)
+            fshift = np.fft.fftshift(f)
+            magnitude_spectrum = 20*np.log(np.abs(fshift))
+            cv2.imwrite(output_dir+ name+'_'+"fft" +'.jpg', magnitude_spectrum)
+
+
+    if a.invfft is True:
+        print("process_invFFT\n")
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            #print(name)
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext,0)
+            #orgimg = cv2.cvtColor(orgimg, cv2.COLOR_BGR2GRAY)
+            myutil.image_check(orgimg)
+            f_ishift = np.fft.ifftshift(orgimg)
+            img_back = np.fft.ifft2(f_ishift).real
+            #img_back = np.abs(img_back)
+            img_back=np.uint8(img_back)
+            #magnitude_spectrum = 20*np.log(np.abs(fshift))
+            cv2.imwrite(output_dir+ name+'_'+"fft" +'.jpg', img_back)
+
+        """
+        for src_path in img_list:
+            name, _ = os.path.splitext(os.path.basename(src_path))
+            orgimg = cv2.imread(a.input_dir+ '/'+name+ext,0)
+            #image = cv2.imread("mt_fuji.jpg", cv2.IMREAD_GRAYSCALE)
+            #cv2.imshow("original",image)
+            #cv2.waitKey(0)
+            #cv2.destroyWindow()
+            
+            fimage = np.fft.fft2(orgimg)
+            print (fimage.shape)
+            cv2.imwrite(output_dir+ name+'_'+"fft" +'.jpg', fimage)
+            
+            #print fimage
+            
+            
+            ifimage = np.fft.ifft2(orgimg)
+            # Extract real part
+            ifimage = ifimage.real
+            # Convert to 255 tones for gray scale
+            ifimage = np.uint8(ifimage)
+            #cv2.imwrite("fft and ifft.png",ifimage)
+            """
+
+
 
 
 
